@@ -1,0 +1,12 @@
+Manifest-Version: 1.0
+Bundle-ManifestVersion: 2
+Bundle-Name: Maps
+Bundle-SymbolicName: de.freese.addressbook.maps;singleton:=true
+Bundle-Version: 1.0.0
+Bundle-Activator: de.freese.addressbook.maps.Activator
+Bundle-Vendor: Thomas Freese
+Require-Bundle: org.eclipse.ui,
+ org.eclipse.core.runtime,
+ de.freese.addressbook.services;bundle-version="1.0.0"
+Bundle-RequiredExecutionEnvironment: JavaSE-1.7
+Bundle-ActivationPolicy: lazy

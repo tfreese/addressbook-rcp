@@ -1,0 +1,244 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<?eclipse version="3.4"?>
+<plugin>
+
+   <extension
+         id="application"
+         point="org.eclipse.core.runtime.applications">
+      <application>
+         <run
+               class="de.freese.addressbook.Application">
+         </run>
+      </application>
+   </extension>
+   <extension
+         point="org.eclipse.ui.perspectives">
+      <perspective
+            name="Addressen"
+            class="de.freese.addressbook.perspectives.AddressesPerspective"
+            id="de.freese.addressbook.perspective.Addresses">
+      </perspective>
+   </extension>
+   <extension
+         point="org.eclipse.ui.views">
+      <view
+            id="de.freese.addressbook.views.AddressList"
+            class="de.freese.addressbook.views.AddressList"
+            icon="icons/sample.gif"
+            name="Addressen">
+      </view>
+      <view
+            id="de.freese.addressbook.views.AddressView"      
+            class="de.freese.addressbook.views.AddressView"
+            icon="icons/sample.gif"
+            name="Adresse">
+      </view>
+	  <view
+			id="org.eclipse.ui.views.ProgressView"
+			class="org.eclipse.ui.ExtensionFactory:progressView"
+			icon="/icons/pview.gif"
+			allowMultiple="false"
+			name="Progress"/>
+	  <view
+			id="org.eclipse.ui.internal.console.ConsoleView"
+			class="org.eclipse.ui.internal.console.ConsoleView"
+			allowMultiple="true"
+			name="Console"
+			visible="false"/>							      
+   </extension>
+   <extension
+         point="org.eclipse.help.contexts">
+      <contexts
+            file="contexts.xml">
+      </contexts>
+   </extension>
+   <extension
+         id="product"
+         point="org.eclipse.core.runtime.products">
+      <product
+            application="de.freese.addressbook.application"
+            name="de.freese.addressbook.product">
+         <property
+               name="appName"
+               value="de.freese.addressbook.product">
+         </property>
+         <property
+               name="aboutImage"
+               value="icons/book_128.png">
+         </property>
+         <property
+               name="aboutText"
+               value="Address Book">
+         </property>
+         <property
+               name="windowImages"
+               value="icons/book_16.png,icons/book_32.png,icons/book_48.png,icons/book_64.png,icons/book_128.png">
+         </property>
+         <property
+               name="startupForegroundColor"
+               value="5DA8E5">
+         </property>
+         <property
+               name="startupMessageRect"
+               value="5,260,290,20">
+         </property>
+         <property
+               name="startupProgressRect"
+               value="5,280,290,15">
+         </property>
+         <property
+               name="preferenceCustomization"
+               value="plugin_customization.ini">
+         </property>
+      </product>
+   </extension>
+   <extension
+         point="org.eclipse.ui.commands">
+         <command id="de.freese.addressbook.somecommand" name="SomeCommand"/>
+         <command id="org.eclipse.ui.window.preferences" name="My Preferences"/>
+   </extension>
+   <extension
+         point="org.eclipse.ui.menus">
+         <menuContribution locationURI="menu:org.eclipse.ui.main.menu">
+			<menu id="de.freese.file" label="Datei">
+				<command commandId="org.eclipse.ui.file.save"/>
+				<command commandId="org.eclipse.ui.file.saveAll"/>
+				<separator name="save" visible="true"/>
+				<command commandId="org.eclipse.ui.file.close"/>
+				<command commandId="org.eclipse.ui.file.closeAll"/>
+				<separator name="close" visible="true"/>
+				<command commandId="org.eclipse.ui.file.refresh"/>
+				<separator name="refresh" visible="true"/>				
+				<command commandId="org.eclipse.ui.file.exit"
+					tooltip="Exit the application">
+				</command>
+			</menu>										
+			<menu id="de.freese.edit" label="Edit">
+				<command commandId="org.eclipse.ui.edit.undo"/>
+				<command commandId="org.eclipse.ui.edit.redo"/>
+				<separator name="undoredo" visible="true"/>	
+				<command commandId="org.eclipse.ui.edit.cut"/>
+				<command commandId="org.eclipse.ui.edit.copy"/>
+				<command commandId="org.eclipse.ui.edit.paste"/>
+				<separator name="ccp" visible="true"/>	
+				<command commandId="org.eclipse.ui.edit.delete"/>
+			</menu> 	
+			<menu id="de.freese.window" label="Settings">
+				<command commandId="org.eclipse.ui.window.preferences">
+				</command>
+			</menu>					         	
+			<menu id="de.freese.somemenu" label="SomeMenu">
+				<command commandId="de.freese.addressbook.somecommand"
+					icon="icons/alt_window_16.gif">
+				</command>
+			</menu>
+		</menuContribution>
+		<menuContribution locationURI="toolbar:org.eclipse.ui.main.toolbar">
+			<toolbar id="de.freese.toolbar1">
+				<command commandId="org.eclipse.ui.file.save"/>
+				<separator name="save" visible="true"/>	
+				<command commandId="org.eclipse.ui.file.refresh"/>
+			</toolbar>
+		</menuContribution>				
+		<menuContribution locationURI="toolbar:org.eclipse.ui.main.toolbar">
+			<toolbar id="de.freese.toolbar2">
+				<command commandId="de.freese.addressbook.somecommand"
+					icon="icons/alt_window_16.gif">
+				</command>
+			</toolbar>
+		</menuContribution>	
+		<menuContribution locationURI="toolbar:de.freese.addressbook.views.AddressView">
+			<command commandId="de.freese.addressbook.somecommand"
+				icon="icons/alt_window_16.gif"
+				style="push">
+			</command>
+		</menuContribution>	
+		<menuContribution locationURI="popup:de.freese.somepopup">
+			<command commandId="de.freese.addressbook.somecommand"
+				icon="icons/alt_window_16.gif"
+				style="push">
+			</command>
+		</menuContribution>				
+   </extension>
+	<extension point="org.eclipse.ui.handlers">
+		<handler commandId="de.freese.addressbook.somecommand"
+			class="de.freese.addressbook.handler.SomeCommandHandler">
+			<activeWhen>
+				<with variable="selection">
+					<iterate ifEmpty="false" operator="or">
+						<instanceof value="de.freese.addressbook.entities.Address"/>
+					</iterate>
+				</with>
+			</activeWhen>
+			<enabledWhen>
+      			<with variable="selection">
+         			<count value="1" />
+      			</with>
+   			</enabledWhen> 			
+		</handler>
+		<handler commandId="org.eclipse.ui.file.refresh"
+			class="de.freese.addressbook.handler.RefreshHandler">
+			<activeWhen>
+				<with variable="activePartId">
+					<equals value="de.freese.addressbook.views.AddressList"/>
+				</with>
+			</activeWhen>		
+		</handler>		
+	</extension>   
+
+	<extension point="org.eclipse.ui.preferencePages">
+		<page class="de.freese.addressbook.preferences.AddressPreferencePage"
+				id="de.freese.addressbook.preferences.AddressPreferencePage"
+				name="AddressBook">
+		</page>	
+		<page class="org.eclipse.ui.ExtensionFactory:keysPreferencePage"
+				id="newKeysPreferencePage"
+		name="Keys"/>
+	
+		<page class="org.eclipse.ui.activities.ActivitiesPreferencePage"
+				id="org.eclipse.ui.activities.ActivitiesPreferencePage"
+				name="ActivitiesPreferencePage">
+		</page>
+		<page class="org.eclipse.ui.activities.ActivityCategoryPreferencePage"
+				id="org.eclipse.ui.activities.ActivityCategoryPreferencePage"
+				name="ActivityCategoryPreferencePage">
+		</page>	
+		<page class="org.eclipse.ui.internal.themes.ColorsAndFontsPreferencePage"
+				id="org.eclipse.ui.internal.themes.ColorsAndFontsPreferencePage"
+				name="ColorsAndFontsPreferencePage">
+		</page>
+		<page class="org.eclipse.ui.internal.dialogs.ContentTypesPreferencePage"
+				id="org.eclipse.ui.internal.dialogs.ContentTypesPreferencePage"
+				name="ContentTypesPreferencePage">
+		</page>
+		<page class="org.eclipse.ui.internal.dialogs.DecoratorsPreferencePage"
+				id="org.eclipse.ui.internal.dialogs.DecoratorsPreferencePage"
+				name="DecoratorsPreferencePage">
+		</page>
+		<page class="org.eclipse.ui.internal.dialogs.EditorsPreferencePage"
+				id="org.eclipse.ui.internal.dialogs.EditorsPreferencePage"
+				name="EditorsPreferencePage">
+		</page>	
+		<!--page class="org.eclipse.ui.internal.keys.KeysPreferencePage"
+				id="org.eclipse.ui.internal.keys.KeysPreferencePage"
+				name="KeysPreferencePage">
+		</page-->
+		<page class="org.eclipse.ui.internal.dialogs.PerspectivesPreferencePage"
+				id="org.eclipse.ui.internal.dialogs.PerspectivesPreferencePage"
+				name="PerspectivesPreferencePage">
+		</page>
+		<page class="org.eclipse.ui.internal.dialogs.StartupPreferencePage"
+				id="org.eclipse.ui.internal.dialogs.StartupPreferencePage"
+				name="StartupPreferencePage">
+		</page>
+		<page class="org.eclipse.ui.internal.dialogs.ViewsPreferencePage"
+				id="org.eclipse.ui.internal.dialogs.ViewsPreferencePage"
+				name="ViewsPreferencePage">
+		</page>	
+		<page class="org.eclipse.ui.internal.dialogs.WorkbenchPreferencePage"
+				id="org.eclipse.ui.internal.dialogs.WorkbenchPreferencePage"
+				name="WorkbenchPreferencePage">
+		</page>																											
+	</extension>
+
+</plugin>

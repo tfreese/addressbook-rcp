@@ -1,0 +1,48 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<?eclipse version="3.2"?>
+<plugin>
+   <extension
+         point="org.eclipse.ui.views">
+      <view
+            class="de.freese.addressbook.maps.views.MapView"
+            id="de.freese.addressbook.maps.views.MapView"
+            icon="icons/sample.gif"
+            name="Karte">
+      </view>
+   </extension>
+   <extension
+         point="org.eclipse.ui.perspectiveExtensions">
+		<perspectiveExtension
+            targetID="de.freese.addressbook.perspective.Addresses">
+         <view
+               id="de.freese.addressbook.maps.views.MapView"
+               minimized="false"
+               ratio="1.0f"
+               relationship="stack"
+               relative="org.eclipse.ui.views.ProgressView"
+               standalone="true"
+               showTitle="true"
+               closeable="true"
+               moveable="true"
+               visible="false">
+         </view>
+      </perspectiveExtension>
+   </extension>
+   <extension
+         point="org.eclipse.ui.commands">
+         <command id="de.freese.addressbook.maps.show" name="Google Maps"/>
+   </extension>   
+   <extension
+         point="org.eclipse.ui.menus">
+		<menuContribution locationURI="toolbar:de.freese.addressbook.views.AddressView?before=de.freese.addressbook.somecommand">
+			<command commandId="de.freese.addressbook.maps.show"
+				icon="icons/google.png" style="push">
+			</command>
+		</menuContribution>	         
+   </extension>
+   <extension point="org.eclipse.ui.handlers">
+		<handler commandId="de.freese.addressbook.maps.show"
+			class="de.freese.addressbook.maps.handler.ShowMapHandler">
+		</handler>    
+   </extension>                   
+</plugin>
